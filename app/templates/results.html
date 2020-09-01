@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AVevasion-Download</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <style>
+        html{
+        zoom:175%
+        }
+        .score, #filename, #download{
+        font-size : large
+        }
+    </style>
+</head>
+<body>
+ <div class="row">
+            <div class="col-sm-12">
+                <nav class="navbar navbar-expand-lg bg-danger navbar-dark">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <h1>Avevasion</h1>
+                </li>
+              </ul>
+            </nav>
+             </div>
+ </div>
+
+ <div class="card">
+    <div class="card-body">
+      <h4 class="card-title" id="filename">{{ filename }}</h4>
+      <a href="/download/{{ filename }}" class="card-link" id="download">download </a>
+        <p class="score">Scores: </p>
+        {% for score in report %}
+           <p class="score">{{ compilers[loop.index0] }}:{{ score }}</p>
+        {% endfor %}
+    </div>
+  </div>
+
+
+
+</body>
+</html>

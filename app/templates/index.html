@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AVevasion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <style>
+        html{
+        zoom:175%
+        }
+        #compilers{
+        float: right;
+        margin-right:20%
+
+        }
+        #manipulations{
+        float:left;
+        }
+        #submitbtn{
+        clear:both;}
+
+    </style>
+</head>
+<body>
+    <div class="row">
+            <div class="col-sm-12">
+                <nav class="navbar navbar-expand-lg bg-danger navbar-dark">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <h1> <a href={{url_for('main_bp.index')}} style="text-decoration:none; color:inherit">Avevasion</a></h1>
+                </li>
+              </ul>
+            </nav>
+             </div>
+    </div>
+   {% with messages = get_flashed_messages(with_categories=true) %}
+  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible" role="alert" style="background-color:#FF1500">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>{{ message }}</strong>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+  <ul class="nav nav-pills">
+    <li ><a data-toggle="pill" href="#tool-tab" >Tool</a></li>
+    <li><a data-toggle="pill" href="#conf-tab">Configuration</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="tool-tab" class="tab-pane fade in active" >
+      <h3 >Tool</h3>
+        <form method="post" enctype="multipart/form-data" action="/upload">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile1" name="config-file" required>
+            <label class="custom-file-label" for="customFile1">Choose configuration file</label>
+          </div>
+            <div class="custom-file">
+               <input type="file" class="custom-file-input" id="customFile2" name="payload-file" required>
+            <label class="custom-file-label" for="customFile2">Choose payload</label>
+            </div>
+            <div class="custom-file">
+               <input type="file" class="custom-file-input" id="customFile3" name="template-file" required>
+            <label class="custom-file-label" for="customFile3">Choose template</label>
+            </div>
+              <input class="btn btn-danger" type="submit" value="Upload" size="50">
+
+
+        </form>
+  </div>
+      <div id="conf-tab" class="tab-pane fade">
+          <h4>Configuration File Creation</h4>
+          <h5> Mainpulations</h5>
+          <form method="post" enctype="multipart/form-data" action="/createconf" name="conf">
+              <div id ="manipulations">
+          <div class="custom-file">
+              <label class="custom-file-label" for="template">Choose template file *</label>
+            <input type="file" class="custom-file-input" id="template" name="template-file" required>
+
+          </div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="payload" name="payload-file" required>
+                <label class="custom-file-label" for="template">Choose payload file *</label>
+              </div>
+               <div class="form-group">
+                   <label for="specialchar">Special Character *</label>
+                   <input type="text" class="form-control" id="specialchar" name="specialchar" placeholder="special character..." required>
+               </div>
+              <div class="form-group">
+                   <label for="payloadplaceholder">Payload PlaceHolder *</label>
+                   <input type="text" class="form-control" id="payloadplaceholder" name="payloadplaceholder" placeholder="placeholder..." required>
+               </div>
+              <div class="form-group">
+                   <label for="rate">Rate</label>
+                   <input type="number" step=".01" min="0" max="0.99" class="form-control" id="rate" name="rate" placeholder="0-1">
+               </div>
+              <div class="form-group">
+                   <label for="outputname">outputname</label>
+                   <input type="text" class="form-control" id="outputname" name="outputname" placeholder="...">
+               </div>
+              <div class="form-group" id="subs-div">
+                   <label >Substitutions</label>
+                   <input type="text" class="form-control" id="subs1 "class="subs" name="subs" placeholder="placeholder...">
+                   <input type="text" class="form-control" id="string1" class="string" name="strings" placeholder="string...">
+               </div>
+              <div class="form-group" id="button-div">
+                   <input type="button"  onclick="addSubs();" class="btn btn-danger" id="addsubs" value="Add Substitutions">
+               </div>
+                  </div>
+              <div id ="compilers">
+              <h6> Compilers</h6>
+              <div class="form-group">
+                   <label >Compiler</label>
+                   <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="compilers" value="gcc" >
+                      <label class="form-check-label" for="inlineCheckbox1">GCC</label>
+                   </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="compilers" value="g++" >
+                      <label class="form-check-label" for="inlineCheckbox2">G++</label>
+                    </div>
+               </div>
+                  <div class="form-group">
+                   <label for="option1-gcc">Options1 for gcc</label>
+                   <input type="text" class="form-control" id="option1-gcc" name="option1-gcc" placeholder="option1...">
+                   <input type="text" class="form-control" id="value1-gcc" name="value1-gcc" placeholder="value..">
+               </div>
+              <div class="form-group">
+                   <label for="option2-gcc">Options2 for gcc</label>
+                   <input type="text" class="form-control" id="option2-gcc" name="option2-gcc" placeholder="option2...">
+                   <input type="text" class="form-control" id="value2-gcc" name="value2-gcc" placeholder="value..">
+               </div>
+                  <div class="form-group">
+                   <label for="option1-g++">Options1 for g++</label>
+                   <input type="text" class="form-control" id="option1-g++" name="option1-g++" placeholder="option1...">
+                   <input type="text" class="form-control" id="value1-g++" name="value1-g++" placeholder="value..">
+               </div>
+              <div class="form-group">
+                   <label for="option2-g++">Options2 for g++</label>
+                   <input type="text" class="form-control" id="option2-g++" name="option2-g++" placeholder="option2...">
+                   <input type="text" class="form-control" id="value2-g++" name="value2-g++" placeholder="value..">
+               </div>
+                  </div>
+              <div id ="submitbtn"><input class="btn btn-danger" type="submit" value="Submit" size="50"></div>
+          </form>
+      </div>
+</div>
+
+<script>
+function addSubs(){
+    var fields = '<input type="text" class="form-control" class="subs1" name ="subs" placeholder="placeholder...">';
+    var fields2 = '<input type="text" class="form-control" class="string1" name="strings" placeholder="string...">';
+    document.getElementById("subs-div").innerHTML += fields;
+    document.getElementById("subs-div").innerHTML += fields2;
+
+}
+
+<!--function spawnOptions(compiler){-->
+<!--    var compiler = compiler;-->
+<!--    console.log(compiler);-->
+<!--    var fields = '<div class="form-group">'+-->
+<!--    '<label for="option1" id="text-options1">Options1 for </label>'+-->
+<!--    '<input type="text" class="form-control" id="option1" name="option1" placeholder="option1...">'+-->
+<!--    '<input type="text" class="form-control" id="value1" name="value1" placeholder="value..">'+-->
+<!--    '</div>';-->
+<!--    var fields2 = '<div class="form-group">'+-->
+<!--                   '<label for="option2" id="text-options2">Options2</label>'+-->
+<!--                   '<input type="text" class="form-control" id="option2" name="option2" placeholder="option2...">'+-->
+<!--                   '<input type="text" class="form-control" id="value2" name="value2" placeholder="value..">'+-->
+<!--               '</div>';-->
+
+<!--    document.getElementById("options-div").innerHTML += fields;-->
+<!--    document.getElementById("options-div").innerHTML += fields2;-->
+<!--    document.getElementById("text-options1").innerHTML += compiler;-->
+<!--    document.getElementById("text-options2").innerHTML += compiler;-->
+<!--}-->
+
+</script>
+
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
+
+</body>
+</html>
