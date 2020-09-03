@@ -1,0 +1,35 @@
+{
+    "manipulations":{
+        "template":"C:\\Users\\ozne2\\Desktop\\Tesi\\AVevasion\\Wrapper\\AVevasion\\Testing\\template.txt",
+        "payload":{
+            "path":"C:\\Users\\ozne2\\Desktop\\Tesi\\AVevasion\\Wrapper\\AVevasion\\Testing\\enzo_payload.txt",
+            "specialch":"s\\x21",
+            "placeholder":"--pl--",
+            "rate":0.5
+        },
+        "sub":[{
+            "placeholder":"--pl1--",
+            "str":"\\x21"
+        },{
+            "placeholder":"--pl2--",
+            "str":"\\x3d\\x29\\x0a"
+            }
+
+        ],
+        "out":"mysource.c"
+    },
+    "compilers":{
+        "gcc":{
+            "path":"C:\\MinGW\\lib\\gcc",
+            "options1":[{
+                "name":"-o",
+                "value":[
+                    "hw.out"
+                    ]
+                  },
+                {
+                "name":"-c"
+                }]
+        }
+    }
+}

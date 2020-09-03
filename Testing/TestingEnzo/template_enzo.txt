@@ -1,0 +1,11 @@
+#include<stdio.h>
+char payload [] = "--pl--";
+
+int main(){
+	for(int i = 0; i < sizeof(payload)/sizeof(char);i++){
+		if(payload [i]!= '--pl1--')
+			printf("%c", payload[i]);
+	}
+	prinf("%s","--pl2--");
+	return 0;
+}

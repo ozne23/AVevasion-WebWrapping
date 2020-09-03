@@ -1,0 +1,7 @@
+#include<stdio.h>
+char payload [] = "--pl--";
+
+int main(){
+	printf("%s",payload);
+	return 0;
+}
